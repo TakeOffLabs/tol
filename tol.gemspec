@@ -4,7 +4,7 @@ require File.expand_path('../lib/tol/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Alex Tandrau"]
   gem.email         = ["alex@takeofflabs.com"]
-  gem.description   = %q{A collection of tools used at Take Off Labs}
+  gem.description   = %q{A collection of tools used at Take Off Labs for Rails development}
   gem.summary       = %q{Heroku interactions, etc.}
   gem.homepage      = "http://www.takeofflabs.com"
 
