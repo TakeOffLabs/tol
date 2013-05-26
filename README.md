@@ -18,10 +18,12 @@ Or install it yourself as:
 
 ## Usage
 
+```
 Take Off Labs :: A collection of useful tools for Rails development
 
 tol db          # Copies the latest version of the database from Heroku to the local development system.
 tol help        # Displays this help message.
+```
 
 ## Contributing
 
