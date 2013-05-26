@@ -9,7 +9,7 @@ class CLI
       help
     else
       case ARGV.first
-      when "database"
+      when "db"
         Tol::Database.new.run
       else
         help
@@ -19,14 +19,14 @@ class CLI
 
   def help
     puts "  #{"Take Off Labs".foreground(:green).underline} :: " +
-         "#{"Collection of useful tools".underline}\n\n"
+         "#{"A collection of useful tools for Rails development".underline}\n\n"
 
     database_help
     help_help
   end
 
   def database_help
-    puts "  #{"tol database".foreground(:red)}    \# Copies the latest version of the database from Heroku to the local development system."
+    puts "  #{"tol db".foreground(:red)}          \# Copies the latest version of the database from Heroku to the local development system."
   end
 
   def help_help
