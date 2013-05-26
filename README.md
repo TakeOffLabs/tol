@@ -1,6 +1,6 @@
-# Tol
+# TOL - Speeding up routine tasks
 
-TODO: Write a gem description
+A collection of tools used at Take Off Labs for Rails development
 
 ## Installation
 
@@ -18,7 +18,10 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Take Off Labs :: A collection of useful tools for Rails development
+
+tol db          # Copies the latest version of the database from Heroku to the local development system.
+tol help        # Displays this help message.
 
 ## Contributing
 
