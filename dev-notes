@@ -1,0 +1,20 @@
+# To install on a local system, using bundler:
+
+1. In gem directory
+rake install
+gem server
+
+2. In application directory
+Add to Gemfile, source "source 'http://localhost:8808'"
+Add to Gemfile, gem "tol"
+bundle install
+
+# To install on local system, without bundler
+gem install --local /Users/atandrau/work/tol/pkg/tol-0.0.1.gem
+
+# Other useful links:
+
+1. https://github.com/geemus/formatador -> formats output
+2. https://github.com/paul/progress_bar -> progress bar in CLI
+3. https://github.com/JEG2/highline -> Ask questions to CLI
+4. http://www.awesomecommandlineapps.com/gems.html -> collection of gems

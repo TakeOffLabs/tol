@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'tol'
+Tol::CLI.new.run
