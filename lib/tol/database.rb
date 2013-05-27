@@ -47,27 +47,30 @@ class Database
     puts "-> drop old database"
     dropdb           = "dropdb"
     dropdb          += " -h #{@settings['host']}"      if @settings["host"]
-    dropdb          += " -U #{@settings['user']}"      if @settings["user"]
-    dropdb          += " -P #{@settings['password']}"  if @settings["password"]
+    dropdb          += " -U #{@settings['username']}"  if @settings["username"]
+    dropdb           = "PGPASSWORD=#{@settings['password']} " +
+                       dropdb                          if @settings["password"]
     dropdb          += " #{@settings['database']}"
-    drop             = `#{dropdb}`
+    drop             = `/bin/bash -c '#{dropdb}'`
 
     puts "-> recreate old database"
     createdb         = "createdb"
     createdb        += " -h #{@settings['host']}"      if @settings["host"]
-    createdb        += " -U #{@settings['user']}"      if @settings["user"]
-    createdb        += " -P #{@settings['password']}"  if @settings["password"]
+    createdb        += " -U #{@settings['username']}"  if @settings["username"]
+    createdb         = "PGPASSWORD=#{@settings['password']} " +
+                       createdb                        if @settings["password"]
     createdb        += " #{@settings['database']}"
-    create           = `#{createdb}`
+    create           = `/bin/bash -c '#{createdb}'`
 
     puts "-> restore from file"
     restore_command  = "pg_restore --verbose --clean --no-acl --no-owner"
     restore_command += " -d #{@settings['database']}"
     restore_command += " -h #{@settings['host']}"      if @settings["host"]
-    restore_command += " -U #{@settings['user']}"      if @settings["user"]
-    restore_command += " -P #{@settings['password']}"  if @settings["password"]
+    restore_command += " -U #{@settings['username']}"  if @settings["username"]
+    restore_command  = "PGPASSWORD=#{@settings['password']} " +
+                       restore_command                 if @settings["password"]
     restore_command += " /tmp/#{heroku_app}.dump > /dev/null 2>&1"
-    restore          = `#{restore_command}`
+    restore          = `/bin/bash -c '#{restore_command}'`
 
     puts "5. Cleaning up.".foreground(:yellow)
     clean_up = `rm /tmp/#{heroku_app}.dump`
