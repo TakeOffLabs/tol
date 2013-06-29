@@ -33,17 +33,37 @@ class Database
   def download(heroku_app)
     puts "Downloading database for #{heroku_app.underline}".foreground(:green)
 
-    puts "1. Detecting local database settings.".foreground(:yellow)
+    puts "Step 1. Detecting local database settings.".foreground(:yellow)
     @settings = Tol::RailsApp.new.database_settings["development"]
 
-    puts "2. Capturing database on Heroku. Please wait.".foreground(:yellow)
-    db = `heroku pgbackups:capture --app #{heroku_app} --expire`
-    
-    puts "3. Downloading. Please wait.".foreground(:yellow)
-    url = `heroku pgbackups:url --app #{heroku_app}`
-    download = `curl -o /tmp/#{heroku_app}.dump '#{url}' > /dev/null 2>&1`
+    choose do |menu|
+      puts "Step 2. Which version of the database should I download?".foreground(:green)
+      
+      menu.prompt = "Please pick up database version?"
+      
+      local_file = "/tmp/#{heroku_app}.dump"
+      if File.exists?(local_file)
+        downloaded_at = File.mtime(local_file).strftime("%b %e, %l:%M %p")
+        menu.choice "Local File (Fastest) - downloaded at #{downloaded_at}"
+      end
 
-    puts "4. Importing Database.".foreground(:yellow)
+      menu.choice "Most Recent Snapshot (Fast)" do
+        puts "... Downloading. Please wait.".foreground(:yellow)
+        url = `heroku pgbackups:url --app #{heroku_app}`
+        download = `curl -o /tmp/#{heroku_app}.dump '#{url}' > /dev/null 2>&1`
+      end
+
+      menu.choice "New Snapshot (Slowest)" do
+        puts "... Capturing database on Heroku. Please wait".foreground(:yellow)
+        db = `heroku pgbackups:capture --app #{heroku_app} --expire`
+
+        puts "... Downloading. Please wait.".foreground(:yellow)
+        url = `heroku pgbackups:url --app #{heroku_app}`
+        download = `curl -o /tmp/#{heroku_app}.dump '#{url}' > /dev/null 2>&1`
+      end
+    end
+    
+    puts "Step 3. Importing Database.".foreground(:yellow)
     puts "-> drop old database"
     dropdb           = "dropdb"
     dropdb          += " -h #{@settings['host']}"      if @settings["host"]
@@ -71,9 +91,6 @@ class Database
                        restore_command                 if @settings["password"]
     restore_command += " /tmp/#{heroku_app}.dump > /dev/null 2>&1"
     restore          = `/bin/bash -c '#{restore_command}'`
-
-    puts "5. Cleaning up.".foreground(:yellow)
-    clean_up = `rm /tmp/#{heroku_app}.dump`
 
     puts "DONE".foreground(:green)
   end
