@@ -22,6 +22,7 @@ Or install it yourself as:
 Take Off Labs :: A collection of useful tools for Rails development
 
 tol db          # Copies the latest version of the database from Heroku to the local development system.
+tol codecheck   # Checks the code for left over binding.pry or console.log.
 tol help        # Displays this help message.
 ```
 
