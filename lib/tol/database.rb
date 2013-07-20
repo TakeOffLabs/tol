@@ -49,16 +49,26 @@ class Database
 
       menu.choice "Most Recent Snapshot (Fast)" do
         puts "... Downloading. Please wait.".foreground(:yellow)
-        url = `heroku pgbackups:url --app #{heroku_app}`
+        url = ""
+        Bundler.with_clean_env do
+          url = `heroku pgbackups:url --app #{heroku_app}`
+        end
         download = `curl -o /tmp/#{heroku_app}.dump '#{url}' > /dev/null 2>&1`
       end
 
       menu.choice "New Snapshot (Slowest)" do
         puts "... Capturing database on Heroku. Please wait".foreground(:yellow)
-        db = `heroku pgbackups:capture --app #{heroku_app} --expire`
+        db = ""
+        Bundler.with_clean_env do
+          db = `heroku pgbackups:capture --app #{heroku_app} --expire`
+        end
 
         puts "... Downloading. Please wait.".foreground(:yellow)
-        url = `heroku pgbackups:url --app #{heroku_app}`
+        url = ""
+        Bundler.with_clean_env do
+          url = `heroku pgbackups:url --app #{heroku_app}`
+        end
+        
         download = `curl -o /tmp/#{heroku_app}.dump '#{url}' > /dev/null 2>&1`
       end
     end
