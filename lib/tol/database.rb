@@ -1,5 +1,6 @@
 require 'tol/heroku'
 require 'tol/rails_app'
+require 'bundler'
 
 module Tol
 class Database
