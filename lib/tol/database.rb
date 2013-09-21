@@ -13,6 +13,8 @@ class Database
     
     if apps.length == 0
       puts "No Heroku apps found".foreground(:red)
+      puts "Add your remotes to .git/config"
+      # TODO: Automatically add remotes
     elsif apps.length == 1
       download(apps[0])
     else
