@@ -12,13 +12,13 @@ class Config
 
     begin
       global = YAML::load(IO.read("/Users/#{Etc.getlogin}/tol.yml"))
-      config.merge(global)
+      config.merge!(global)
     rescue
     end
 
     begin
       local = YAML::load(IO.read("tol.yml"))
-      config.merge(local)
+      config.merge!(local)
     rescue
     end
 
