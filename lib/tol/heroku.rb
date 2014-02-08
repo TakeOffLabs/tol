@@ -14,12 +14,12 @@ class Heroku
   end
 
   def deploy
-    puts "Deploying to Heroku".foreground(:green)
+    puts Rainbow("Deploying to Heroku").foreground(:green)
 
     puts "Identifying git branch"
     branch = `git rev-parse --abbrev-ref HEAD`.gsub("\n", "")
 
-    puts "Identified local branch #{branch.foreground(:green)}. Please confirm."
+    puts "Identified local branch #{Rainbow(branch).foreground(:green)}. Please confirm."
     choose do |menu|
       menu.prompt = "Continue?"
       
@@ -34,13 +34,13 @@ class Heroku
     puts "Identifying Heroku application"
     apps = list_of_applications    
     if apps.length == 0
-      puts "No Heroku apps found".foreground(:red)
+      puts Rainbow("No Heroku apps found").foreground(:red)
       puts "Add your remotes to .git/config"
       # TODO: Automatically add remotes
     elsif apps.length == 1
       deploy_to(apps[0], branch)
     else
-      puts "Multiple Heroku apps found".foreground(:green)
+      puts Rainbow("Multiple Heroku apps found").foreground(:green)
 
       choose do |menu|
         menu.prompt = "Where to deploy?"

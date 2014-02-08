@@ -12,7 +12,7 @@ class Newapp
 
   # Setup the buckets
   def awsbuckets
-    puts "Step 1. Creating AWS buckets".foreground(:green)
+    puts Rainbow("Step 1. Creating AWS buckets").foreground(:green)
 
     puts "Please enter the name of the application:"
     name = STDIN.gets.gsub("\n", "")
@@ -40,7 +40,7 @@ class Newapp
       create_bucket("#{name}-#{suffix}")
     end
 
-    puts "Step 2. Carrierwave".foreground(:green)
+    puts Rainbow("Step 2. Carrierwave").foreground(:green)
 
     choose do |menu|
       menu.prompt = "Using carrierwave?"
@@ -48,8 +48,7 @@ class Newapp
         create_carrierwave_config(name, region)
       
         # TODO: Add gem to gemfile automatically
-        puts "Add the following line to " + \
-             "Gemfile".foreground(:green)
+        puts Rainbow("Add the following line to Gemfile").foreground(:green)
         puts "gem carrierwave"
         puts ""
       end
@@ -65,18 +64,17 @@ class Newapp
         create_asset_sync_config(name, region)
 
         # TODO: Add gem to gemfile automatically
-        puts "Add the following line to " + \
-             "Gemfile".foreground(:green)
+        puts Rainbow("Add the following line to Gemfile").foreground(:green)
         puts "gem asset_sync"
         puts ""
 
         # TODO: Settings in production.rb, staging.rb automatically
-        puts "Add the following line to " + \
-             "config/environments/production.rb".foreground(:green)
+        puts Rainbow("Add the following line to " + \
+             "config/environments/production.rb").foreground(:green)
         puts "config.action_controller.asset_host = 'https://#{name}-assets.s3.amazonaws.com'"
 
-        puts "Add the following line to " + \
-             "config/environments/staging.rb".foreground(:green)
+        puts Rainbow("Add the following line to " + \
+             "config/environments/staging.rb").foreground(:green)
         puts "config.action_controller.asset_host = 'https://#{name}-assets.s3.amazonaws.com'"
       end
       menu.choice "No"
@@ -84,7 +82,7 @@ class Newapp
   end
 
   def create_bucket(name)
-    puts "Creating bucket #{name}".foreground(:yellow)
+    puts Rainbow("Creating bucket #{name}").foreground(:yellow)
     s3 = AWS::S3.new
     bucket = s3.buckets.create(name)
     bucket.cors.set(
@@ -138,7 +136,7 @@ eos
   # New APP
   # Generate a new Heroku application
   def heroku
-    puts "Step 1. Create new Heroku application".foreground(:green)
+    puts Rainbow("Step 1. Create new Heroku application").foreground(:green)
 
     puts "Please enter the name of the new Heroku application:"
     name = STDIN.gets.gsub("\n", "")
@@ -173,7 +171,7 @@ eos
   # Set up multi-environment system, if necessary (e.g., staging and production)
   def environment(app)
     choose do |menu|
-      puts "Step 2. Adding the Rails environment".foreground(:green)
+      puts Rainbow("Step 2. Adding the Rails environment").foreground(:green)
 
       menu.prompt = "Which environment?"
 
@@ -195,7 +193,7 @@ eos
   # Adding collaborators
   def collaborators(app)
     choose do |menu|
-      puts "Step 3. Adding collaborators".foreground(:green)
+      puts Rainbow("Step 3. Adding collaborators").foreground(:green)
       menu.prompt = "Which collaborators?"
 
       menu.choice "Default" do
@@ -217,7 +215,7 @@ eos
   # Adding database
   def database(app)
     choose do |menu|
-      puts "Step 4. Adding database addons".foreground(:green)
+      puts Rainbow("Step 4. Adding database addons").foreground(:green)
       menu.prompt = "Which database?"
 
       menu.choice "Postgres" do
@@ -259,7 +257,7 @@ eos
   # Adding email system
   def email(app)
     choose do |menu|
-      puts "Step 6. Adding email addons".foreground(:green)
+      puts Rainbow("Step 6. Adding email addons").foreground(:green)
       menu.prompt = "Which email system?"
 
       menu.choice "Mandrill" do
@@ -267,8 +265,8 @@ eos
           system("heroku addons:add mandrill:starter --app #{app}")
         end
 
-        puts "Please paste " + \
-             "and complete ".foreground(:green) + \
+        puts Rainbow("Please paste " + \
+             "and complete ").foreground(:green) + \
              "the following in your environment file (e.g., production.rb)"        
         content = <<-eos
 config.action_mailer.default_url_options = { :host => 'http://<DOMAIN HERE>' }
@@ -293,8 +291,8 @@ eos
           system("heroku addons:add sendgrid:starter --app #{app}")
         end
 
-        puts "Please paste " + \
-             "and complete ".foreground(:green) + \
+        puts Rainbow("Please paste " + \
+             "and complete ").foreground(:green) + \
              "the following in your environment file (e.g., production.rb)"
         content = <<-eos
 config.action_mailer.default_url_options = { :host => 'http://<DOMAIN HERE>' }
@@ -323,7 +321,7 @@ eos
   # Enable asset sync
   def asset_sync(app)
     choose do |menu|
-      puts "Step 7. Adding Asset Sync".foreground(:green)
+      puts Rainbow("Step 7. Adding Asset Sync").foreground(:green)
       menu.prompt = "Using Asset Sync?"
 
       menu.choice "Yes" do
@@ -366,13 +364,13 @@ eos
       f.write(content)
     end
 
-    puts "Add the following line to " + \
-         "config/application.rb".foreground(:red)
+    puts Rainbow("Add the following line to " + \
+         "config/application.rb").foreground(:red)
     puts "config.autoload_paths += %W( \#\{ config.root \}/lib/middleware )"
     puts ""
 
-    puts "Add the following line to " + \
-         "config/environments/production.rb".foreground(:red)
+    puts Rainbow("Add the following line to " + \
+         "config/environments/production.rb").foreground(:red)
     puts "config.middleware.use \"WwwMiddleware\""
     puts ""
   end
