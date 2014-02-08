@@ -76,7 +76,7 @@ class Database
       end
     end
     
-    puts "Step 3. Importing Database.".foreground(:yellow)
+    puts Rainbow("Step 3. Importing Database.").foreground(:yellow)
     puts "-> drop old database"
     dropdb           = "dropdb"
     dropdb          += " -h #{@settings['host']}"      if @settings["host"]
@@ -105,7 +105,7 @@ class Database
     restore_command += " /tmp/#{heroku_app}.dump > /dev/null 2>&1"
     restore          = `/bin/bash -c '#{restore_command}'`
 
-    puts "DONE".foreground(:green)
+    puts Rainbow("DONE").foreground(:green)
   end
 
 end
