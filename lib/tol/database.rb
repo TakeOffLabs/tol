@@ -34,7 +34,7 @@ class Database
   end
 
   def download(heroku_app)
-    puts Rainbow("Downloading database for #{heroku_app.underline}").foreground(:green)
+    puts Rainbow("Downloading database for #{Rainbow(heroku_app).underline}").foreground(:green)
 
     puts Rainbow("Step 1. Detecting local database settings.").foreground(:yellow)
     @settings = Tol::RailsApp.new.database_settings["development"]
