@@ -233,7 +233,7 @@ eos
 
   # Adding domains
   def domains(app)
-    puts "Step 5. Adding custom domains".foreground(:green)
+    puts Rainbow("Step 5. Adding custom domains").foreground(:green)
 
     continue = true
     while continue do
