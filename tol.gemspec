@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "pry"
 
   # Runtime gems
-  gem.add_dependency "rainbow" # https://github.com/sickill/rainbow
+  gem.add_dependency "rainbow", "2.0.0" # https://github.com/sickill/rainbow
   gem.add_dependency "highline"
   gem.add_dependency "aws-sdk"
 end
