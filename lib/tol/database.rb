@@ -12,11 +12,13 @@ class Database
     apps = Tol::Heroku.new.list_of_applications
     
     if apps.length == 0
-      puts "No Heroku apps found".foreground(:red)
+      puts Rainbow("No Heroku apps found").foreground(:red)
+      puts "Add your remotes to .git/config"
+      # TODO: Automatically add remotes
     elsif apps.length == 1
       download(apps[0])
     else
-      puts "Multiple Heroku apps found".foreground(:green)
+      puts Rainbow("Multiple Heroku apps found").foreground(:green)
 
       choose do |menu|
         menu.prompt = "Which database should I download?"
@@ -32,13 +34,13 @@ class Database
   end
 
   def download(heroku_app)
-    puts "Downloading database for #{heroku_app.underline}".foreground(:green)
+    puts Rainbow("Downloading database for #{heroku_app.underline}").foreground(:green)
 
-    puts "Step 1. Detecting local database settings.".foreground(:yellow)
+    puts Rainbow("Step 1. Detecting local database settings.").foreground(:yellow)
     @settings = Tol::RailsApp.new.database_settings["development"]
 
     choose do |menu|
-      puts "Step 2. Which version of the database should I download?".foreground(:green)
+      puts Rainbow("Step 2. Which version of the database should I download?").foreground(:green)
       
       menu.prompt = "Please pick up database version?"
       
@@ -49,7 +51,7 @@ class Database
       end
 
       menu.choice "Most Recent Snapshot (Fast)" do
-        puts "... Downloading. Please wait.".foreground(:yellow)
+        puts Rainbow("... Downloading. Please wait.").foreground(:yellow)
         url = ""
         Bundler.with_clean_env do
           url = `heroku pgbackups:url --app #{heroku_app}`
@@ -58,13 +60,13 @@ class Database
       end
 
       menu.choice "New Snapshot (Slowest)" do
-        puts "... Capturing database on Heroku. Please wait".foreground(:yellow)
+        puts Rainbow("... Capturing database on Heroku. Please wait").foreground(:yellow)
         db = ""
         Bundler.with_clean_env do
           db = `heroku pgbackups:capture --app #{heroku_app} --expire`
         end
 
-        puts "... Downloading. Please wait.".foreground(:yellow)
+        puts Rainbow("... Downloading. Please wait.").foreground(:yellow)
         url = ""
         Bundler.with_clean_env do
           url = `heroku pgbackups:url --app #{heroku_app}`
