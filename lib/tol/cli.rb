@@ -2,6 +2,7 @@ require 'tol/database'
 require 'tol/codecheck'
 require 'tol/newapp'
 require 'tol/heroku'
+require 'tol/git'
 
 module Tol
 class CLI
@@ -14,6 +15,8 @@ class CLI
       case ARGV.first
       when "db"
         Tol::Database.new.run
+      when "cm"
+        Tol::Git.new.commit
       when "codecheck"
         Tol::Codecheck.new.run
       when "newapp:aws"
@@ -35,6 +38,7 @@ class CLI
          "#{Rainbow("A collection of useful tools for Rails development").underline}\n\n"
 
     database_help
+    git_help
     codecheck_help
     newapp_help
     heroku_help
@@ -43,6 +47,10 @@ class CLI
 
   def database_help
     puts "  #{Rainbow("tol db").foreground(:red)}            \# Copies the latest version of the database from Heroku to the local development system."
+  end
+  
+  def git_help
+    puts "  #{Rainbow("tol cm").foreground(:red)}            \# Quick commit and push."
   end
 
   def codecheck_help
