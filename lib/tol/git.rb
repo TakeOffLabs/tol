@@ -64,6 +64,7 @@ class Git
     message = "#{icon} #{message}"
     
     `git add -u .`
+    `git add .`
     `git commit -m '#{message}'`
     `git push origin #{branch}`
   end
