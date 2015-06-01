@@ -54,7 +54,7 @@ class Database
         puts Rainbow("... Downloading. Please wait.").foreground(:yellow)
         url = ""
         Bundler.with_clean_env do
-          url = `heroku pgbackups:url --app #{heroku_app}`
+          url = `heroku pg:backups public-url --app #{heroku_app}`
         end
         download = `curl -o /tmp/#{heroku_app}.dump '#{url}' > /dev/null 2>&1`
       end
@@ -63,13 +63,13 @@ class Database
         puts Rainbow("... Capturing database on Heroku. Please wait").foreground(:yellow)
         db = ""
         Bundler.with_clean_env do
-          db = `heroku pgbackups:capture --app #{heroku_app} --expire`
+          db = `heroku pg:backups capture --app #{heroku_app} --expire`
         end
 
         puts Rainbow("... Downloading. Please wait.").foreground(:yellow)
         url = ""
         Bundler.with_clean_env do
-          url = `heroku pgbackups:url --app #{heroku_app}`
+          url = `heroku pg:backups public-url --app #{heroku_app}`
         end
         
         download = `curl -o /tmp/#{heroku_app}.dump '#{url}' > /dev/null 2>&1`
