@@ -63,7 +63,7 @@ class Database
         puts Rainbow("... Capturing database on Heroku. Please wait").foreground(:yellow)
         db = ""
         Bundler.with_clean_env do
-          db = `heroku pg:backups capture --app #{heroku_app} --expire`
+          db = `heroku pg:backups capture --app #{heroku_app}`
         end
 
         puts Rainbow("... Downloading. Please wait.").foreground(:yellow)
